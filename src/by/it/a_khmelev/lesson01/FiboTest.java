@@ -1,6 +1,5 @@
 package by.it.a_khmelev.lesson01;
 
-import by.it.group973603.Kondratovich.lesson01.FiboA;
 import org.junit.Test;
 
 import java.math.BigInteger;
