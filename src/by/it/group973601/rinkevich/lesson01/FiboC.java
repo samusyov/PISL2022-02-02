@@ -38,6 +38,7 @@ public class FiboC {
             a = b;
             b = d;
         }
+
         return seq.get((int) n % seq.size());
     }
 
