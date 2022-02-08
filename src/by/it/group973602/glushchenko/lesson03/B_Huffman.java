@@ -2,7 +2,10 @@ package by.it.group973602.glushchenko.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 // Lesson 3. B_Huffman.
 // Восстановите строку по её коду и беспрефиксному коду символов.
@@ -43,19 +46,29 @@ import java.util.Scanner;
 public class B_Huffman {
 
     String decode(File file) throws FileNotFoundException {
-        StringBuilder result=new StringBuilder();
+        StringBuilder result = new StringBuilder();
         //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(file);
-        Integer count = scanner.nextInt();
-        Integer length = scanner.nextInt();
+        int count = scanner.nextInt();
+        int length = scanner.nextInt();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        //тут запишите ваше решение
-
-
-
-
+        char letter;
+        Map<String, Character> codes = new HashMap<>();
+        for (int i = 0; i < count; i++) {
+            letter = scanner.next().charAt(0);
+            codes.put(scanner.next(), letter);
+        }
+        String code = scanner.next();
+        String buf = "";
+        for (int i = 0; i < length; i++) {
+            buf += code.charAt(i);
+            if (codes.containsKey(buf)) {
+                result.append(codes.get(buf));
+                buf = "";
+            }
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        return result.toString(); //01001100100111
+        return result.toString();
     }
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -65,6 +78,4 @@ public class B_Huffman {
         String result = instance.decode(f);
         System.out.println(result);
     }
-
-
 }
