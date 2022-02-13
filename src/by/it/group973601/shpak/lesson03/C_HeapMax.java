@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -44,21 +45,46 @@ public class C_HeapMax {
         private List<Long> heap = new ArrayList<>();
 
         int siftDown(int i) { //просеивание вверх
-
-            return i;
+            int index;
+            if ((index = 2 * i + 1) < heap.size()) {
+                if (heap.get(i) < heap.get(index)) {
+                    Collections.swap(heap, i, index);
+                    i = index;
+                }
+            } else if ((index = 2 * i + 2) < heap.size()) {
+                if (heap.get(i) < heap.get((index = 2 * i + 2))) {
+                    Collections.swap(heap, i, index);
+                    i = index;
+                }
+            }
+            if (index != i)
+                return -1;
+            return siftDown(i);
         }
 
         int siftUp(int i) { //просеивание вниз
-
-            return i;
+            if (i != 0) {
+                if (heap.get(i) > heap.get(i / 2)) {
+                    Collections.swap(heap, i, i / 2);
+                }
+            } else return -1;
+            return siftUp(i / 2);
         }
 
         void insert(Long value) { //вставка
+            heap.add(value);
+            siftUp(heap.size() - 1);
         }
 
         Long extractMax() { //извлечение и удаление максимума
-            Long result = null;
 
+            if (heap.size() < 2) {
+                return -1L;
+            }
+            Long result = heap.remove(0);
+            Long lower = heap.remove(heap.size() - 1);
+            heap.add(0, lower);
+            siftDown(0);
             return result;
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
