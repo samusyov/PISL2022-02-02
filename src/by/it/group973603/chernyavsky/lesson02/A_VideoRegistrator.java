@@ -1,4 +1,4 @@
-package by.it.group973601.zhukovsky.lesson02;
+package by.it.group973603.chernyavsky.lesson02;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,17 +37,17 @@ public class A_VideoRegistrator {
         //вычислим момент окончания работы видеокамеры
         //и теперь пропустим все покрываемые события
         //за время до конца работы, увеличивая индекс
-        while(i<events.length){
+        while (i < events.length) {
             result.add(events[i]);
-            double stop = events[i]+workDuration;
+            double end = events[i] + workDuration;
             i++;
-            while (events[i]<=stop){
+            while (events[i] <= end) {
                 i++;
-                if (i==events.length){
-                    break;
-                }
+                if (i == events.length) break;
             }
         }
+
+
         return result;                        //вернем итог
     }
 }

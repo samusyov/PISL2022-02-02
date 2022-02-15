@@ -1,8 +1,7 @@
-package by.it.group973601.zhukovsky.lesson02;
+package by.it.group973601.rinkevich.lesson02;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 /*
 даны интервальные события events
@@ -24,21 +23,21 @@ public class B_Sheduler {
 
         @Override
         public String toString() {
-            return "("+ start +":" + stop + ")";
+            return "(" + start + ":" + stop + ")";
         }
     }
 
     public static void main(String[] args) {
         B_Sheduler instance = new B_Sheduler();
-        Event[] events = {  new Event(0, 3),  new Event(0, 1), new Event(1, 2), new Event(3, 5),
-                new Event(1, 3),  new Event(1, 3), new Event(1, 3), new Event(3, 6),
-                new Event(2, 7),  new Event(2, 3), new Event(2, 7), new Event(7, 9),
-                new Event(3, 5),  new Event(2, 4), new Event(2, 3), new Event(3, 7),
-                new Event(4, 5),  new Event(6, 7), new Event(6, 9), new Event(7, 9),
-                new Event(8, 9),  new Event(4, 6), new Event(8, 10), new Event(7, 10)
+        Event[] events = {new Event(0, 3), new Event(0, 1), new Event(1, 2), new Event(3, 5),
+                new Event(1, 3), new Event(1, 3), new Event(1, 3), new Event(3, 6),
+                new Event(2, 7), new Event(2, 3), new Event(2, 7), new Event(7, 9),
+                new Event(3, 5), new Event(2, 4), new Event(2, 3), new Event(3, 7),
+                new Event(4, 5), new Event(6, 7), new Event(6, 9), new Event(7, 9),
+                new Event(8, 9), new Event(4, 6), new Event(8, 10), new Event(7, 10)
         };
 
-        List<Event> starts = instance.calcStartTimes(events,0,10);  //рассчитаем оптимальное заполнение аудитории
+        List<Event> starts = instance.calcStartTimes(events, 0, 10);  //рассчитаем оптимальное заполнение аудитории
         System.out.println(starts);                                 //покажем рассчитанный график занятий
     }
 
@@ -47,33 +46,32 @@ public class B_Sheduler {
         //в период [from, int] (включительно).
         //оптимизация проводится по наибольшему числу непересекающихся событий.
         //начало и конец событий могут совпадать.
-        List<Event> result;g
+        List<Event> result;
         result = new ArrayList<>();
         //ваше решение.
-        Comparator<Event> eventComparator = (o1, o2) -> {
-            if (o1.start == o2.start && o1.stop == o2.stop){
-                return 0;
-            }
-            if (o1.stop < o2.stop) return -1;
-            else if (o1.stop == o2.stop){
-                if (o1.start < o2.start){
-                    return -1;
-                } else {
-                    return 1;
-                }
-            } else {
+
+
+        Arrays.sort(events, (e1, e2) -> {
+            if (e1.stop > e2.stop)
                 return 1;
-            }
-        };
-        int d;
-        Arrays.sort(events,eventComparator);
-        while (from < events.length && events[from].stop <= to) {
-            result.add(events[from]);
-            d = events[from].stop;
-            from++;
-            while (events[from].start < d) {
-                from++;
-                if (from == events.length) break;
+            else if (e1.stop == e2.stop) {
+                if (e1.start >= e2.start)
+                    return 1;
+                else return -1;
+            } else return -1;
+        });
+        Event min = events[0];
+        boolean flag = false;
+        for (Event e : events) {
+            if (e.start >= from && e.stop <= to) {
+                if (!flag) {
+                    min = e;
+                    result.add(e);
+                    flag = true;
+                } else if (min.stop <= e.start) {
+                    min = e;
+                    result.add(e);
+                }
             }
         }
         return result;                        //вернем итог

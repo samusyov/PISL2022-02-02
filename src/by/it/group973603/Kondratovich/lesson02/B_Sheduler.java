@@ -1,8 +1,7 @@
-package by.it.group973601.zhukovsky.lesson02;
+package by.it.group973603.Kondratovich.lesson02;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 /*
 даны интервальные события events
@@ -47,35 +46,35 @@ public class B_Sheduler {
         //в период [from, int] (включительно).
         //оптимизация проводится по наибольшему числу непересекающихся событий.
         //начало и конец событий могут совпадать.
-        List<Event> result;g
+        List<Event> result;
         result = new ArrayList<>();
         //ваше решение.
-        Comparator<Event> eventComparator = (o1, o2) -> {
-            if (o1.start == o2.start && o1.stop == o2.stop){
-                return 0;
-            }
-            if (o1.stop < o2.stop) return -1;
-            else if (o1.stop == o2.stop){
-                if (o1.start < o2.start){
-                    return -1;
-                } else {
-                    return 1;
-                }
-            } else {
+
+        Arrays.sort(events, (e1, e2) -> {
+            if (e1.stop > e2.stop)
                 return 1;
+            else if (e1.stop == e2.stop){
+                if (e1.start >= e2.start)
+                    return 1;
+                else return -1;
             }
-        };
-        int d;
-        Arrays.sort(events,eventComparator);
-        while (from < events.length && events[from].stop <= to) {
-            result.add(events[from]);
-            d = events[from].stop;
-            from++;
-            while (events[from].start < d) {
-                from++;
-                if (from == events.length) break;
+            else return -1;
+        });
+        Event min = events[0];
+        boolean flag = false;
+        for(Event e : events){
+            if (e.start >= from && e.stop <= to) {
+                if (!flag) {
+                    min = e;
+                    result.add(e);
+                    flag = true;
+                } else if (min.stop <= e.start) {
+                    min = e;
+                    result.add(e);
+                }
             }
         }
+
         return result;                        //вернем итог
     }
 }

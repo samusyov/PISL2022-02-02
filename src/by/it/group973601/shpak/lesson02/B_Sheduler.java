@@ -1,9 +1,10 @@
-package by.it.group973601.zhukovsky.lesson02;
+package by.it.group973601.shpak.lesson02;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 /*
 даны интервальные события events
 реализуйте метод calcStartTimes, так, чтобы число принятых к выполнению
@@ -16,6 +17,14 @@ public class B_Sheduler {
     static class Event {
         int start;
         int stop;
+
+        public int getStart() {
+            return start;
+        }
+
+        public int getStop() {
+            return stop;
+        }
 
         Event(int start, int stop) {
             this.start = start;
@@ -37,8 +46,8 @@ public class B_Sheduler {
                 new Event(4, 5),  new Event(6, 7), new Event(6, 9), new Event(7, 9),
                 new Event(8, 9),  new Event(4, 6), new Event(8, 10), new Event(7, 10)
         };
-
-        List<Event> starts = instance.calcStartTimes(events,0,10);  //рассчитаем оптимальное заполнение аудитории
+        List<Event> starts = instance.calcStartTimes(events,0,10);
+        //рассчитаем оптимальное заполнение аудитории
         System.out.println(starts);                                 //покажем рассчитанный график занятий
     }
 
@@ -47,34 +56,22 @@ public class B_Sheduler {
         //в период [from, int] (включительно).
         //оптимизация проводится по наибольшему числу непересекающихся событий.
         //начало и конец событий могут совпадать.
-        List<Event> result;g
+        List<Event> result;
         result = new ArrayList<>();
         //ваше решение.
-        Comparator<Event> eventComparator = (o1, o2) -> {
-            if (o1.start == o2.start && o1.stop == o2.stop){
-                return 0;
-            }
-            if (o1.stop < o2.stop) return -1;
-            else if (o1.stop == o2.stop){
-                if (o1.start < o2.start){
-                    return -1;
+        Comparator<Event> eventStartDataAndDurationComparator = Comparator
+                .comparing(Event::getStart)
+                .thenComparing(Event::getStop);
+        events =Arrays.stream(events).sorted(eventStartDataAndDurationComparator).toArray(Event[]::new);
+        while (events.length > 0) {
+            result.add(events[0]);
+            events = Arrays.stream(events).filter(event -> {
+                if(event.start != result.get(result.size()-1).start && event.start >= result.get(result.size()-1).stop) {
+                    return true;
                 } else {
-                    return 1;
+                    return false;
                 }
-            } else {
-                return 1;
-            }
-        };
-        int d;
-        Arrays.sort(events,eventComparator);
-        while (from < events.length && events[from].stop <= to) {
-            result.add(events[from]);
-            d = events[from].stop;
-            from++;
-            while (events[from].start < d) {
-                from++;
-                if (from == events.length) break;
-            }
+            }).toArray(Event[]::new);
         }
         return result;                        //вернем итог
     }

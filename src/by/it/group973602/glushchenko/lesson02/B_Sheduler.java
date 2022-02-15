@@ -1,8 +1,7 @@
-package by.it.group973601.zhukovsky.lesson02;
+package by.it.group973602.glushchenko.lesson02;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 /*
 даны интервальные события events
@@ -13,7 +12,7 @@ import java.util.List;
 
 public class B_Sheduler {
     //событие у аудитории(два поля: начало и конец)
-    static class Event {
+    static class Event implements Comparable<Event>{
         int start;
         int stop;
 
@@ -26,7 +25,15 @@ public class B_Sheduler {
         public String toString() {
             return "("+ start +":" + stop + ")";
         }
+
+        @Override
+        public int compareTo(Event o) {  // сортировка по возрастанию времени окончания события
+            if (this.stop < o.stop)
+                return -1;
+            return 1;
+        }
     }
+
 
     public static void main(String[] args) {
         B_Sheduler instance = new B_Sheduler();
@@ -44,38 +51,21 @@ public class B_Sheduler {
 
     List<Event> calcStartTimes(Event[] events, int from, int to) {
         //events - события которые нужно распределить в аудитории
-        //в период [from, int] (включительно).
+        //в период [from, to] (включительно).
         //оптимизация проводится по наибольшему числу непересекающихся событий.
         //начало и конец событий могут совпадать.
-        List<Event> result;g
+        List<Event> result;
         result = new ArrayList<>();
-        //ваше решение.
-        Comparator<Event> eventComparator = (o1, o2) -> {
-            if (o1.start == o2.start && o1.stop == o2.stop){
-                return 0;
-            }
-            if (o1.stop < o2.stop) return -1;
-            else if (o1.stop == o2.stop){
-                if (o1.start < o2.start){
-                    return -1;
-                } else {
-                    return 1;
-                }
-            } else {
-                return 1;
-            }
-        };
-        int d;
-        Arrays.sort(events,eventComparator);
-        while (from < events.length && events[from].stop <= to) {
-            result.add(events[from]);
-            d = events[from].stop;
-            from++;
-            while (events[from].start < d) {
-                from++;
-                if (from == events.length) break;
-            }
+
+        Arrays.sort(events);
+        int i = 0, last;
+        while (events[i].start < from) i++;
+        while (i < events.length - 1) {
+            if (events[i].stop >= to) break;
+            last = events[i].stop;
+            result.add(events[i]);
+            while (events[i].start < last && events[i].stop < to) i++;
         }
-        return result;                        //вернем итог
+        return result;
     }
 }
