@@ -21,10 +21,6 @@ Sample Output:
 */
 public class B_MergeSort {
 
-
-
-
-
     int[] getMergeSort(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
@@ -32,12 +28,11 @@ public class B_MergeSort {
 
         //размер массива
         int n = scanner.nextInt();
-        //сам массива
+        //сам массив
         int[] a=new int[n];
         for (int i = 0; i < n; i++) {
             a[i] = scanner.nextInt();
             System.out.println(a[i]);
-
         }
 
         // тут ваше решение (реализуйте сортировку слиянием)
