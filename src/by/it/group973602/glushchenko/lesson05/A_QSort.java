@@ -3,6 +3,7 @@ package by.it.group973602.glushchenko.lesson05;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /*
@@ -53,6 +54,24 @@ public class A_QSort {
         }
     }
 
+    void quickSort(Segment[] s, int left, int right) {
+        if (s.length == 0 || left > right) return;
+        int i = left, j = right;
+        Segment m = s[(left + right) / 2];
+        while (i <= j) {
+            while (s[i].compareTo(m) < 0) i++;
+            while (s[i].compareTo(m) > 0) j--;
+            if (i <= j) {
+                Segment tmp = s[i];
+                s[i] = s[j];
+                s[j] = tmp;
+                i++; j--;
+            }
+        }
+        if (i < right) quickSort(s, i, right);
+        if (j > left) quickSort(s, left, j);
+    }
+
 
     int[] getAccessory(InputStream stream) {
         //подготовка к чтению данных
@@ -74,6 +93,13 @@ public class A_QSort {
             points[i] = scanner.nextInt();
         }
 
+        quickSort(segments, 0, segments.length - 1);
+        for (int i = 0; i < points.length; i++) {
+            for (Segment s : segments) {
+                if (points[i] >= s.start && points[i] <= s.stop)
+                    result[i]++;
+            }
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

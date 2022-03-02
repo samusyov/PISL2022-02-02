@@ -3,6 +3,9 @@ package by.it.group973602.glushchenko.lesson05;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 /*
@@ -49,6 +52,8 @@ public class C_QSortOptimized {
     }
 
 
+
+
     int[] getAccessory2(InputStream stream) {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
@@ -67,10 +72,32 @@ public class C_QSortOptimized {
             segments[i] = new Segment(scanner.nextInt(),scanner.nextInt());
         }
         //читаем точки
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < m; i++) {
             points[i] = scanner.nextInt();
         }
 
+        // бинарный поиск
+        int left, right, middle;
+        for (int i = 0; i < points.length; i++) {
+            result[i] = 0;
+            ArrayList<Segment> tmp = new ArrayList<>();
+            Collections.addAll(tmp, segments);
+            left = 0;
+            right = tmp.size() - 1;
+            while (left <= right) {
+                middle = (left + right) / 2;
+                if (points[i] >= tmp.get(middle).start && points[i] <= tmp.get(middle).stop) {
+                    tmp.remove(middle);
+                    result[i]++;
+                }
+                else if (points[i] < tmp.get(middle).start) {
+                    right = middle - 1;
+                }
+                else if (points[i] > tmp.get(middle).stop) {
+                    left = middle + 1;
+                }
+            }
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
