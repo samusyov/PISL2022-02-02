@@ -3,9 +3,6 @@ package by.it.group973602.glushchenko.lesson05;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Scanner;
 
 /*
@@ -51,8 +48,61 @@ public class C_QSortOptimized {
         }
     }
 
+    void quickSort(Segment[] s, int left, int right) {
+        int i = left, j = right, middle = (left + right) / 2, rMiddle;
+        int lMiddle = rMiddle = middle;
+        Segment m = s[middle];
+        while (true) {
+            while (i < lMiddle && s[i].compareTo(m) < 0) {
+                if (s[i].compareTo(m) == 0) {
+                    swap(s, i, --lMiddle);
+                } else i++;
+            }
+            while (j > rMiddle && s[j].compareTo(m) >= 0) {
+                if (s[j].compareTo(m) == 0) {
+                    swap(s, j, ++rMiddle);
+                } else j--;
+            }
+            if (i >= lMiddle && j <= rMiddle) break;
+            else if (i >= lMiddle) {
+                swap(s, ++rMiddle, j);
+                swap(s, rMiddle, lMiddle);
+                i = lMiddle++;
+            } else if (j <= rMiddle) {
+                swap(s, --lMiddle, i);
+                swap(s, lMiddle, rMiddle);
+                j = rMiddle--;
+            } else {
+                swap(s, i, j);
+                i++; j--;
+            }
+        }
+        if (lMiddle > left) {
+            quickSort(s, left, --lMiddle);
+        }
+        if (rMiddle < right) {
+            quickSort(s, ++rMiddle, right);
+        }
+    }
 
+    void swap(Segment[] s, int a, int b) {
+        Segment tmp = s[a];
+        s[a] = s[b];
+        s[b] = tmp;
+    }
 
+    int binarySearch(Segment[] s, int point) {
+        int left = 0, right = s.length - 1, middle, idx = -1;
+        while (left <= right) {
+            middle = (left + right) / 2;
+            if (point >= s[middle].start) {
+                idx = middle;
+                left = middle + 1;
+            }
+            else right = middle - 1;
+        }
+        return idx;
+    }
 
     int[] getAccessory2(InputStream stream) {
         //подготовка к чтению данных
@@ -76,28 +126,16 @@ public class C_QSortOptimized {
             points[i] = scanner.nextInt();
         }
 
-        // бинарный поиск
-        int left, right, middle;
+        quickSort(segments, 0, segments.length - 1);
+
         for (int i = 0; i < points.length; i++) {
-            result[i] = 0;
-            ArrayList<Segment> tmp = new ArrayList<>();
-            Collections.addAll(tmp, segments);
-            left = 0;
-            right = tmp.size() - 1;
-            while (left <= right) {
-                middle = (left + right) / 2;
-                if (points[i] >= tmp.get(middle).start && points[i] <= tmp.get(middle).stop) {
-                    tmp.remove(middle);
+            int lastIdx = binarySearch(segments, points[i]);
+            for (int j = 0; j <= lastIdx; j++) {
+                if (points[i] >= segments[j].start && points[i] <= segments[j].stop)
                     result[i]++;
-                }
-                else if (points[i] < tmp.get(middle).start) {
-                    right = middle - 1;
-                }
-                else if (points[i] > tmp.get(middle).stop) {
-                    left = middle + 1;
-                }
             }
         }
+
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
@@ -107,7 +145,7 @@ public class C_QSortOptimized {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson05/dataC.txt");
         C_QSortOptimized instance = new C_QSortOptimized();
-        int[] result=instance.getAccessory2(stream);
+        int[] result = instance.getAccessory2(stream);
         for (int index:result){
             System.out.print(index+" ");
         }
