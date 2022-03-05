@@ -1,4 +1,4 @@
-package by.it.group973603.zemnov.lesson01;
+package by.it.group973603.Samusyov.lesson01;
 
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class FiboC {
 
-    private long startTime = System.currentTimeMillis();
+    private final long startTime = System.currentTimeMillis();
 
     private long time() {
         return System.currentTimeMillis() - startTime;
@@ -27,18 +27,16 @@ public class FiboC {
         //решение практически невозможно найти интуитивно
         //вам потребуется дополнительный поиск информации
         //см. период Пизано
-        /////
-        ArrayList<Integer> seq = new ArrayList<>();
-        for (int a = 0, b = 1%m; ;) {
-            seq.add(a);
+        ArrayList<Integer> arr = new ArrayList<>();
+        for (int a = 0, b = 1 % m;;) {
+            arr.add(a);
             if (a + b == 0 || (a == 1 && b == 0))
                 break;
-            int d = (a + b) % m;
+            int c = (a + b) % m;
             a = b;
-            b = d;
+            b = c;
         }
-        return seq.get((int) n % seq.size());
+        return arr.get((int) n % arr.size());
     }
-
 }
 
