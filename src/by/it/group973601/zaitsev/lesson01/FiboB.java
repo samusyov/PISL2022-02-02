@@ -1,4 +1,4 @@
-package by.it.group973601.Zaitsev.lesson01;
+package by.it.group973601.zaitsev.lesson01;
 
 import java.math.BigInteger;
 

@@ -1,4 +1,4 @@
-package by.it.group973601.Zaitsev.lesson02;
+package by.it.group973601.zaitsev.lesson02;
 /*
 Даны
 1) объем рюкзака 4
