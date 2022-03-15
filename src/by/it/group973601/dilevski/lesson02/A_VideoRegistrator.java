@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson02;
+package by.it.group973601.dilevski.lesson02;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,6 +47,7 @@ public class A_VideoRegistrator {
                 }
             }
         });
+
 
         return result;                        //вернем итог
     }
