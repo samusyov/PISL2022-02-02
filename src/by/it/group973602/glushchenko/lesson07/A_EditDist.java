@@ -38,15 +38,37 @@ import java.util.Scanner;
 */
 
 public class A_EditDist {
+    private String s1, s2;
+    private double[][] d;
 
+    double editDist(int i, int j) {
+        if (d[i][j] == Double.POSITIVE_INFINITY) {
+            if (i == 0)
+                d[i][j] = j;
+            else if (j == 0)
+                d[i][j] = i;
+            else {
+                int c = s1.charAt(i - 1) != s2.charAt(j - 1) ? 1 : 0;
+                double ins = editDist(i, j - 1) + 1;
+                double del = editDist(i - 1, j) + 1;
+                double sub = editDist(i - 1, j - 1) + c;
+                d[i][j] = Math.min(Math.min(ins, del), sub);
+            }
+        }
+        return d[i][j];
+    }
 
     int getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-        int result = 0;
+        int n = one.length();
+        int m = two.length();
+        s1 = one; s2 = two;
+        d = new double[n + 1][m + 1];
+        for (int i = 0; i <= n; i++)
+            for (int j = 0; j <= m; j++)
+                d[i][j] = Double.POSITIVE_INFINITY;
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return (int) editDist(n, m);
     }
 
 
