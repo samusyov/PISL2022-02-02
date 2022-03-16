@@ -1,4 +1,4 @@
-package by.it.group973601.Zaitsev.lesson02;
+package by.it.group973601.zaitsev.lesson02;
 
 import java.util.ArrayList;
 import java.util.Arrays;
