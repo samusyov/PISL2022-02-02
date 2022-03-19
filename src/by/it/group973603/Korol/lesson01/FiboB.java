@@ -24,8 +24,20 @@ public class FiboB {
     }
 
     BigInteger fastB(Integer n) {
-        //здесь нужно реализовать вариант с временем O(n) и памятью O(n)
-        return BigInteger.ZERO;
+        //здесь нужно реализовать вариант с временем O(n) и памятью O(1)
+        if (n == 0)
+            return BigInteger.ZERO;
+        if (n == 1)
+            return BigInteger.ONE;
+        BigInteger prev = BigInteger.ONE;
+        BigInteger next = BigInteger.ONE;
+        n -= 2;
+        while (n > 0) {
+            next = prev.add(next);
+            prev = next.subtract(prev);
+            n--;
+        }
+        return next;
     }
 
 }

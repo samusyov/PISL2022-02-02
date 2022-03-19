@@ -16,7 +16,7 @@ public class FiboA {
 
     public static void main(String[] args) {
         FiboA fibo = new FiboA();
-        int n = 33;
+        int n = 50;
         System.out.printf("calc(%d)=%d \n\t time=%d \n\n", n, fibo.calc(n), fibo.time());
 
         //вычисление чисел фибоначчи медленным методом (рекурсией)
@@ -27,9 +27,12 @@ public class FiboA {
 
 
     private int calc(int n) {
-        //здесь простейший вариант, в котором код совпадает с мат.определением чисел Фибоначчи
-        //время O(2^n)
-        return 0;
+        if (n > 46) {
+            throw new IllegalArgumentException("this method not allowed n>46");
+        }
+        if (n <= 1)
+            return n;
+        return calc(n - 1) + calc(n - 2);
     }
 
 
@@ -38,10 +41,12 @@ public class FiboA {
         //здесь нужно реализовать вариант без ограничения на размер числа,
         //в котором код совпадает с мат.определением чисел Фибоначчи
         //время O(2^n)
-
-        return BigInteger.ZERO;
+        if (n == 0)
+            return BigInteger.ZERO;
+        if (n == 1)
+            return BigInteger.ONE;
+        return slowA(n - 1).add(slowA(n - 2));
     }
-
 
 
 }
