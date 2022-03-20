@@ -80,7 +80,7 @@ public class B_Sheduler {
         });
         Event min = events[0];
         boolean flag = false;
-        for(Event e : events){
+        for(Event e : events) {
             if (e.start >= from && e.stop <= to) {
                 if (!flag) {
                     min = e;

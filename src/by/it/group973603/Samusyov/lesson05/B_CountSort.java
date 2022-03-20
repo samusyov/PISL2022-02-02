@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 /*
 Первая строка содержит число 1<=n<=10000, вторая - n натуральных чисел, не превышающих 10.
-Выведите упорядоченную по неубыванию последовательность этих чисел.
+Выведите упорядоченную по не убыванию последовательность этих чисел.
 
 При сортировке реализуйте метод со сложностью O(n)
 
@@ -18,7 +18,7 @@ import java.util.Scanner;
 public class B_CountSort {
 
 
-    int[] countSort(InputStream stream) throws FileNotFoundException {
+    int[] countSort(InputStream stream) {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
@@ -32,9 +32,19 @@ public class B_CountSort {
         }
         //тут реализуйте логику задачи с применением сортировки подсчетом
 
-
-
-
+        int min = 0;
+        int max = 10;
+        int[] count = new int[max - min + 1];
+        for (int point : points) {
+            int index = point - min;
+            count[index]++;
+        }
+        int pos = 0;
+        for (int i = min; i < max; i++) {
+            for (int j = 0; j < count[i - min]; j++) {
+                points[pos++] = i;
+            }
+        }
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return points;

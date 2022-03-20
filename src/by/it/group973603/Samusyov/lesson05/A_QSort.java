@@ -38,7 +38,7 @@ import java.util.Scanner;
 public class A_QSort {
 
     //отрезок
-    private class Segment  implements Comparable{
+    private class Segment implements Comparable {
         int start;
         int stop;
 
@@ -57,7 +57,7 @@ public class A_QSort {
     }
 
 
-    int[] getAccessory(InputStream stream) throws FileNotFoundException {
+    int[] getAccessory(InputStream stream) {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
@@ -80,10 +80,15 @@ public class A_QSort {
         }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
-
-
-
-
+        for (int i = 0; i < points.length; i++) {
+            int count = 0;
+            for (Segment segment : segments) {
+                if (points[i] <= segment.stop && points[i] >= segment.start) {
+                    count++;
+                }
+            }
+            result[i] = count;
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
@@ -98,5 +103,4 @@ public class A_QSort {
             System.out.print(index+" ");
         }
     }
-
 }
