@@ -9,9 +9,8 @@ import java.util.Scanner;
 Задача на программирование: рюкзак без повторов
 
 Первая строка входа содержит целые числа
-    1<=W<=100000     вместимость рюкзака
-    1<=n<=300        число золотых слитков
-                    (каждый можно использовать только один раз).
+    1<=W<=100000 - вместимость рюкзака
+    1<=n<=300 - число золотых слитков (каждый можно использовать только один раз)
 Следующая строка содержит n целых чисел, задающих веса каждого из слитков:
   0<=w[1]<=100000 ,..., 0<=w[n]<=100000
 
@@ -31,15 +30,28 @@ public class B_Knapsack {
     int getMaxWeight(InputStream stream ) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         Scanner scanner = new Scanner(stream);
-        int w=scanner.nextInt();
-        int n=scanner.nextInt();
-        int gold[]=new int[n];
+        int w = scanner.nextInt();
+        int n = scanner.nextInt();
+        int[] gold = new int[n];
         for (int i = 0; i < n; i++) {
             gold[i]=scanner.nextInt();
         }
 
+        int result;
 
-        int result = 0;
+        int[][] arr = new int[n + 1][w + 1];
+        for (int i = 0; i <= w; i++) {
+            arr[0][i] = 0;
+        }
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j <= w; j++) {
+                arr[i][j] = arr[i - 1][j];
+                if (j > gold[i - 1] && (arr[i - 1][j - gold[i - 1]] + gold[i - 1] > arr[i][j]))
+                    arr[i][j] = arr[i - 1][j - gold[i - 1]] + gold[i - 1];
+            }
+        }
+
+        result = arr[n][w];
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

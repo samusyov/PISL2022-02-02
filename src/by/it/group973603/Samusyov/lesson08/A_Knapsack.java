@@ -9,9 +9,8 @@ import java.util.Scanner;
 Задача на программирование: рюкзак с повторами
 
 Первая строка входа содержит целые числа
-    1<=W<=100000     вместимость рюкзака
-    1<=n<=300        сколько есть вариантов золотых слитков
-                     (каждый можно использовать множество раз).
+    1<=W<=100000 - вместимость рюкзака
+    1<=n<=300 - сколько есть вариантов золотых слитков (каждый можно использовать множество раз)
 Следующая строка содержит n целых чисел, задающих веса слитков:
   0<=w[1]<=100000 ,..., 0<=w[n]<=100000
 
@@ -39,19 +38,25 @@ public class A_Knapsack {
     int getMaxWeight(InputStream stream ) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         Scanner scanner = new Scanner(stream);
+        int result;
         int w=scanner.nextInt();
         int n=scanner.nextInt();
-        int gold[]=new int[n];
+        int[] gold = new int[n];
         for (int i = 0; i < n; i++) {
             gold[i]=scanner.nextInt();
         }
-
-
-        int result = 0;
+        int[] arr = new int[w + 1];
+        for (int i = 0; i < n; i++) {
+            for (int c = 0; c <= w; c++) {
+                if (c < gold[i]) continue;
+                int f = arr[c - gold[i]] + gold[i];
+                if (arr[c] < f) arr[c] = f;
+            }
+        }
+        result = arr[w];
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
-
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
