@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 /*
-Задача на программирование: наибольшая возростающая подпоследовательность
+Задача на программирование: наибольшая возрастающая подпоследовательность
 см.     https://ru.wikipedia.org/wiki/Задача_поиска_наибольшей_увеличивающейся_подпоследовательности
         https://en.wikipedia.org/wiki/Longest_increasing_subsequence
 
@@ -33,7 +33,7 @@ import java.util.Scanner;
 public class A_LIS {
 
 
-    int getSeqSize(InputStream stream) throws FileNotFoundException {
+    int getSeqSize(InputStream stream) {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
@@ -47,7 +47,21 @@ public class A_LIS {
         //тут реализуйте логику задачи методами динамического программирования (!!!)
         int result = 0;
 
+        int[] memArr = new int[n];
+        for (int i = 0; i < n; i++) {
+            memArr[i] = 1;
+        }
 
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (m[j] > m[i]) {
+                    if (memArr[i] + 1 > memArr[j]) {
+                        memArr[j] = memArr[i] + 1;
+                        result = Math.max(memArr[j], result);
+                    }
+                }
+            }
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
