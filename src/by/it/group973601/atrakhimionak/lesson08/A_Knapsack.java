@@ -47,6 +47,7 @@ public class A_Knapsack {
         }
 
         int result = 0;
+
         int[] knapsack = new int[capacity + 1];
 
         for (int i = 1; i < capacity + 1; i++) {

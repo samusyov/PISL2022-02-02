@@ -51,6 +51,7 @@ public class C_LongNotUpSubSeq {
             m[i] = scanner.nextInt();
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
+
         int result = 0;
         int[] length = new int[n];
         int[] predecessor = new int[n];
@@ -80,7 +81,6 @@ public class C_LongNotUpSubSeq {
             k = predecessor[k];
         }
         System.out.println(Arrays.toString(arrayIndexes));
-
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
