@@ -3,6 +3,7 @@ package by.it.group973603.Samusyov.lesson08;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /*
@@ -30,32 +31,25 @@ public class B_Knapsack {
     int getMaxWeight(InputStream stream ) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         Scanner scanner = new Scanner(stream);
-        int w = scanner.nextInt();
-        int n = scanner.nextInt();
-        int[] gold = new int[n];
+        int w=scanner.nextInt();
+        int n=scanner.nextInt();
+        int gold[]=new int[n];
         for (int i = 0; i < n; i++) {
             gold[i]=scanner.nextInt();
         }
-
-        int result;
-
-        int[][] arr = new int[n + 1][w + 1];
-        for (int i = 0; i <= w; i++) {
-            arr[0][i] = 0;
-        }
-        for (int i = 1; i <= n; i++) {
-            for (int j = 0; j <= w; j++) {
-                arr[i][j] = arr[i - 1][j];
-                if (j > gold[i - 1] && (arr[i - 1][j - gold[i - 1]] + gold[i - 1] > arr[i][j]))
-                    arr[i][j] = arr[i - 1][j - gold[i - 1]] + gold[i - 1];
-            }
-        }
-
-        result = arr[n][w];
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return packKnapsack(w, gold);
     }
 
+    private int packKnapsack(int maxWeight, int[] gold) {
+        int weight = 0;
+        Arrays.sort(gold);
+        for (int index = gold.length - 1; index >= 0; index--) {
+            int goldPieceWeight = gold[index] <= (maxWeight - weight) ? gold[index] : 0;
+            weight += goldPieceWeight;
+        }
+        return weight;
+    }
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";

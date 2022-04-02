@@ -50,15 +50,10 @@ public class B_EditDist {
 
         for (int i = 1; i <= one.length(); i++) {
             System.arraycopy(Di, 0, Di_1, 0, Di_1.length);
-
             Di[0] = i; // (j == 0)
             for (int j = 1; j <= two.length(); j++) {
                 int cost = (one.charAt(i - 1) != two.charAt(j - 1)) ? 1 : 0;
-                Di[j] = min(
-                        Di_1[j] + 1,
-                        Di[j - 1] + 1,
-                        Di_1[j - 1] + cost
-                );
+                Di[j] = min(Di_1[j] + 1, Di[j-1] + 1, Di_1[j-1] + cost);
             }
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!

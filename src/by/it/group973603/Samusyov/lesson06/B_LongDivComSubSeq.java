@@ -54,7 +54,7 @@ public class B_LongDivComSubSeq {
                 if (m[j] % m[i] == 0) {
                     if (memArr[i] + 1 > memArr[j]) {
                         memArr[j] = memArr[i] + 1;
-                        result = Math.max(memArr[j],result);
+                        result = Math.max(memArr[j], result);
                     }
                 }
             }
